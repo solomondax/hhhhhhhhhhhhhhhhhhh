@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import './App.css'
+import TodoItems from './TodoItems';
 
-function App() {
+
+const App = () => {
+
+  const [data, setData] = useState(" ");
+  const [items, setItems] = useState([]);
+
+  const listOfItems = () =>{
+    setItems((some) => [...some, data])
+    return setData("");
+  }
+ 
+ const handlerFunc = (e) => {
+    setData(e.target.value)
+  }
+
+   const deleteFunc = (id) => {
+     console.log("deleter")
+     setItems((some) => {
+       return some.filter((ar, index) => {
+         return index !== id;
+       })
+     })
+     
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='main-container'>
+      
+      <div className='sub-container'>
+      <h1>Toddoo list</h1>
+      <input type="text" onChange={handlerFunc} value={ data} />
+        <button onClick={listOfItems}>Add</button>
+        
+          <ul>
+            {items.map( each => 
+              (<TodoItems key={each.id } item ={each} onSelect={deleteFunc} />
+            ))}
+           
+        
+          </ul>
+          
+        </div>
+        
     </div>
-  );
+
+  )
 }
 
-export default App;
+
+export default App
